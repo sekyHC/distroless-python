@@ -20,10 +20,10 @@ if [[ -z ${DEBIAN_NAME:-} ]]; then
     exit 1
 fi
 
-INTERMEDIATE_REGISTRY_BASE="al3xos"
+INTERMEDIATE_REGISTRY_BASE="sekyhc"
 RC=""
 if [[ ${CI_SERVER:-} == "yes" ]]; then
-    INTERMEDIATE_REGISTRY_BASE="registry.gitlab.com/al3xos/distroless-python"
+    INTERMEDIATE_REGISTRY_BASE="registry.gitlab.com/sekyhc/distroless-python"
     if [[ $CI_COMMIT_BRANCH != "main" ]]; then
         RC="-rc"
     fi
@@ -36,7 +36,7 @@ GOOGLE_DISTROLESS_BASE_IMAGE=gcr.io/distroless/cc-${OS_VERSION}
 # Cut patch version from semver Python version for streamlined image tags: 3.12.0 -> 3.12
 PYTHON_MINOR=$(echo $PYTHON_VERSION | sed -e "s#^\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)#\1.\2#")
 
-TEST_IMAGE_BASE=registry.gitlab.com/al3xos/distroless-python/python-distroless-tests${RC}
+TEST_IMAGE_BASE=registry.gitlab.com/sekyhc/distroless-python/python-distroless-tests${RC}
 
 if [[ ${CI_SERVER:-} == "yes" ]]; then
     if [[ $CI_COMMIT_BRANCH != "main" ]]; then
@@ -50,10 +50,10 @@ PYTHON_INTERMEDIATE_BUILDER_IMAGE_FULL=${INTERMEDIATE_REGISTRY_BASE}/python-buil
 PYTHON_INTERMEDIATE_DISTROLESS_IMAGE=${INTERMEDIATE_REGISTRY_BASE}/python-distroless:${PYTHON_MINOR}-${OS_VERSION}${RC}
 PYTHON_INTERMEDIATE_DISTROLESS_IMAGE_FULL=${INTERMEDIATE_REGISTRY_BASE}/python-distroless:${PYTHON_VERSION}-${OS_VERSION}${RC}
 
-PYTHON_FINAL_BUILDER_IMAGE=al3xos/python-builder:${PYTHON_MINOR}-${OS_VERSION}${RC}
-PYTHON_FINAL_BUILDER_IMAGE_FULL=al3xos/python-builder:${PYTHON_VERSION}-${OS_VERSION}${RC}
-PYTHON_FINAL_DISTROLESS_IMAGE=al3xos/python-distroless:${PYTHON_MINOR}-${OS_VERSION}${RC}
-PYTHON_FINAL_DISTROLESS_IMAGE_FULL=al3xos/python-distroless:${PYTHON_VERSION}-${OS_VERSION}${RC}
+PYTHON_FINAL_BUILDER_IMAGE=sekyhc/python-builder:${PYTHON_MINOR}-${OS_VERSION}${RC}
+PYTHON_FINAL_BUILDER_IMAGE_FULL=sekyhc/python-builder:${PYTHON_VERSION}-${OS_VERSION}${RC}
+PYTHON_FINAL_DISTROLESS_IMAGE=sekyhc/python-distroless:${PYTHON_MINOR}-${OS_VERSION}${RC}
+PYTHON_FINAL_DISTROLESS_IMAGE_FULL=sekyhc/python-distroless:${PYTHON_VERSION}-${OS_VERSION}${RC}
 
 
 if [[ $(echo "${@:-}" | grep -c -- '--debug') -gt 0 ]]; then

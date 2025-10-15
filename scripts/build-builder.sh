@@ -6,7 +6,7 @@ pushd "$(dirname "${BASH_SOURCE[0]}")/../" >/dev/null || exit
 # shellcheck disable=SC1091
 . ./scripts/vars.sh
 
-docker buildx create --name multiarch-builder --use --bootstrap --driver docker-container --platform linux/amd64,linux/arm64 || true
+docker buildx create --name multiarch-builder --use --bootstrap --driver docker-container --platform linux/amd64,linux/arm64,linux/arm/v7 || true
 
 if [[ "${1:-}" == "--publish" ]]; then
     PYTHON_BUILDER_IMAGE="${PYTHON_FINAL_BUILDER_IMAGE}"
@@ -21,7 +21,7 @@ fi
 docker pull "${PYTHON_BUILDER_IMAGE}" || true
 
 docker buildx build \
-    --platform linux/amd64,linux/arm64 \
+    --platform linux/amd64,linux/arm64,linux/arm/v7 \
     --build-arg PYTHON_VERSION="${PYTHON_VERSION}" \
     --build-arg DEBIAN_NAME="${DEBIAN_NAME}" \
     -t "${PYTHON_BUILDER_IMAGE}${TAG}" \
