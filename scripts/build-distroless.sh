@@ -20,10 +20,10 @@ else
     PYTHON_DISTROLESS_IMAGE_FULL="${PYTHON_INTERMEDIATE_DISTROLESS_IMAGE_FULL}"
 fi
 
-docker buildx create --name multiarch-builder --use --bootstrap --driver docker-container --platform linux/amd64,linux/arm64 || true
+docker buildx create --name multiarch-builder --use --bootstrap --driver docker-container --platform linux/amd64,linux/arm64,linux/arm/v7 || true
 
 docker buildx build \
-    --platform linux/amd64,linux/arm64 \
+    --platform linux/amd64,linux/arm64,linux/arm/v7 \
     --build-arg PYTHON_BUILDER_IMAGE="${PYTHON_BUILDER_IMAGE}" \
     --build-arg GOOGLE_DISTROLESS_BASE_IMAGE="${GOOGLE_DISTROLESS_BASE_IMAGE}" \
     --build-arg PYTHON_MINOR="${PYTHON_MINOR}" \
@@ -34,7 +34,7 @@ docker buildx build \
     --push
 
 docker buildx build \
-    --platform linux/amd64,linux/arm64 \
+    --platform linux/amd64,linux/arm64,linux/arm/v7 \
     --build-arg PYTHON_BUILDER_IMAGE="${PYTHON_BUILDER_IMAGE}" \
     --build-arg GOOGLE_DISTROLESS_BASE_IMAGE="${GOOGLE_DISTROLESS_BASE_IMAGE}:debug" \
     --build-arg PYTHON_MINOR="${PYTHON_MINOR}" \
